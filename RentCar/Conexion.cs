@@ -11,7 +11,7 @@ namespace RentCar
     {
         public static MySqlConnection obtenerConexion()
         {
-            string cadenaConexion = "server=localhost;database=rentcar;uid=root;pwd=0725;";
+            string cadenaConexion = "server=localhost;database=rentcar;uid=root;pwd=12345678;";
             return new MySqlConnection(cadenaConexion);
         }
     }
