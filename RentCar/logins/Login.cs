@@ -13,7 +13,7 @@ namespace RentCar
 {
     public partial class Form1 : Form
     {
-        MySqlConnection conexion = new MySqlConnection("server=localhost;database=rentcar;uid=root;pwd=0725;");
+        MySqlConnection conexion = new MySqlConnection("server=localhost;database=rentcar;uid=root;pwd=12345678;");
 
         public Form1()
         {
