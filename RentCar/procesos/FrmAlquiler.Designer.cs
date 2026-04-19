@@ -43,24 +43,23 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.dgvDetalle = new System.Windows.Forms.DataGridView();
-            this.vehiculo_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vehiculo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dias = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtObservacion = new System.Windows.Forms.TextBox();
             this.cmbEstado = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.txtReservaId = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.dtpReserva = new System.Windows.Forms.DateTimePicker();
-            this.label11 = new System.Windows.Forms.Label();
-            this.cmbTipoDia = new System.Windows.Forms.ComboBox();
+            this.vehiculo_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.vehiculo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.precio_vehiculo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.precio_normal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.precio_finsemana = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.precio_feriado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dias = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
@@ -154,6 +153,7 @@
             this.dtpInicio.Name = "dtpInicio";
             this.dtpInicio.Size = new System.Drawing.Size(220, 26);
             this.dtpInicio.TabIndex = 11;
+            this.dtpInicio.ValueChanged += new System.EventHandler(this.dtpInicio_ValueChanged);
             // 
             // dtpFin
             // 
@@ -209,7 +209,10 @@
             this.dgvDetalle.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.vehiculo_id,
             this.vehiculo,
-            this.precio,
+            this.precio_vehiculo,
+            this.precio_normal,
+            this.precio_finsemana,
+            this.precio_feriado,
             this.dias,
             this.subtotal,
             this.eliminar});
@@ -223,54 +226,9 @@
             this.dgvDetalle.TabIndex = 15;
             this.dgvDetalle.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalle_RowsRemoved);
             // 
-            // vehiculo_id
-            // 
-            this.vehiculo_id.HeaderText = "ID";
-            this.vehiculo_id.MinimumWidth = 8;
-            this.vehiculo_id.Name = "vehiculo_id";
-            this.vehiculo_id.Visible = false;
-            this.vehiculo_id.Width = 150;
-            // 
-            // vehiculo
-            // 
-            this.vehiculo.HeaderText = "Vehículo";
-            this.vehiculo.MinimumWidth = 8;
-            this.vehiculo.Name = "vehiculo";
-            this.vehiculo.Width = 150;
-            // 
-            // precio
-            // 
-            this.precio.HeaderText = "precio";
-            this.precio.MinimumWidth = 8;
-            this.precio.Name = "precio";
-            this.precio.Width = 150;
-            // 
-            // dias
-            // 
-            this.dias.HeaderText = "dias";
-            this.dias.MinimumWidth = 8;
-            this.dias.Name = "dias";
-            this.dias.Width = 150;
-            // 
-            // subtotal
-            // 
-            this.subtotal.HeaderText = "subtotal";
-            this.subtotal.MinimumWidth = 8;
-            this.subtotal.Name = "subtotal";
-            this.subtotal.Width = 150;
-            // 
-            // eliminar
-            // 
-            this.eliminar.HeaderText = "eliminar";
-            this.eliminar.MinimumWidth = 8;
-            this.eliminar.Name = "eliminar";
-            this.eliminar.Text = "X";
-            this.eliminar.UseColumnTextForButtonValue = true;
-            this.eliminar.Width = 150;
-            // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(55, 597);
+            this.btnGuardar.Location = new System.Drawing.Point(48, 532);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(143, 66);
             this.btnGuardar.TabIndex = 19;
@@ -280,30 +238,13 @@
             // 
             // btnNuevo
             // 
-            this.btnNuevo.Location = new System.Drawing.Point(285, 597);
+            this.btnNuevo.Location = new System.Drawing.Point(262, 532);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(143, 66);
             this.btnNuevo.TabIndex = 20;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(51, 429);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(128, 24);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Observacion";
-            // 
-            // txtObservacion
-            // 
-            this.txtObservacion.Location = new System.Drawing.Point(3, 468);
-            this.txtObservacion.Name = "txtObservacion";
-            this.txtObservacion.Size = new System.Drawing.Size(211, 26);
-            this.txtObservacion.TabIndex = 22;
             // 
             // cmbEstado
             // 
@@ -314,7 +255,7 @@
             "Activo",
             "",
             "Cancelado"});
-            this.cmbEstado.Location = new System.Drawing.Point(122, 549);
+            this.cmbEstado.Location = new System.Drawing.Point(120, 465);
             this.cmbEstado.Name = "cmbEstado";
             this.cmbEstado.Size = new System.Drawing.Size(239, 28);
             this.cmbEstado.TabIndex = 23;
@@ -323,7 +264,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(211, 522);
+            this.label5.Location = new System.Drawing.Point(197, 425);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 24);
             this.label5.TabIndex = 24;
@@ -365,23 +306,71 @@
             this.dtpReserva.Size = new System.Drawing.Size(220, 26);
             this.dtpReserva.TabIndex = 28;
             // 
-            // label11
+            // vehiculo_id
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(315, 429);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(92, 24);
-            this.label11.TabIndex = 29;
-            this.label11.Text = "Tipo dia";
+            this.vehiculo_id.HeaderText = "ID";
+            this.vehiculo_id.MinimumWidth = 8;
+            this.vehiculo_id.Name = "vehiculo_id";
+            this.vehiculo_id.Visible = false;
+            this.vehiculo_id.Width = 150;
             // 
-            // cmbTipoDia
+            // vehiculo
             // 
-            this.cmbTipoDia.FormattingEnabled = true;
-            this.cmbTipoDia.Location = new System.Drawing.Point(258, 466);
-            this.cmbTipoDia.Name = "cmbTipoDia";
-            this.cmbTipoDia.Size = new System.Drawing.Size(239, 28);
-            this.cmbTipoDia.TabIndex = 30;
+            this.vehiculo.HeaderText = "Vehículo";
+            this.vehiculo.MinimumWidth = 8;
+            this.vehiculo.Name = "vehiculo";
+            this.vehiculo.Width = 150;
+            // 
+            // precio_vehiculo
+            // 
+            this.precio_vehiculo.HeaderText = "preciodelvehiculo";
+            this.precio_vehiculo.MinimumWidth = 8;
+            this.precio_vehiculo.Name = "precio_vehiculo";
+            this.precio_vehiculo.Width = 150;
+            // 
+            // precio_normal
+            // 
+            this.precio_normal.HeaderText = "preciodianormal";
+            this.precio_normal.MinimumWidth = 8;
+            this.precio_normal.Name = "precio_normal";
+            this.precio_normal.Width = 150;
+            // 
+            // precio_finsemana
+            // 
+            this.precio_finsemana.HeaderText = "Preciofindesemana";
+            this.precio_finsemana.MinimumWidth = 8;
+            this.precio_finsemana.Name = "precio_finsemana";
+            this.precio_finsemana.Width = 150;
+            // 
+            // precio_feriado
+            // 
+            this.precio_feriado.HeaderText = "precioferiado";
+            this.precio_feriado.MinimumWidth = 8;
+            this.precio_feriado.Name = "precio_feriado";
+            this.precio_feriado.Width = 150;
+            // 
+            // dias
+            // 
+            this.dias.HeaderText = "dias";
+            this.dias.MinimumWidth = 8;
+            this.dias.Name = "dias";
+            this.dias.Width = 150;
+            // 
+            // subtotal
+            // 
+            this.subtotal.HeaderText = "subtotal";
+            this.subtotal.MinimumWidth = 8;
+            this.subtotal.Name = "subtotal";
+            this.subtotal.Width = 150;
+            // 
+            // eliminar
+            // 
+            this.eliminar.HeaderText = "eliminar";
+            this.eliminar.MinimumWidth = 8;
+            this.eliminar.Name = "eliminar";
+            this.eliminar.Text = "X";
+            this.eliminar.UseColumnTextForButtonValue = true;
+            this.eliminar.Width = 150;
             // 
             // FrmAlquiler
             // 
@@ -389,16 +378,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1214, 683);
-            this.Controls.Add(this.cmbTipoDia);
-            this.Controls.Add(this.label11);
             this.Controls.Add(this.dtpReserva);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtReservaId);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.cmbEstado);
-            this.Controls.Add(this.txtObservacion);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.panel2);
@@ -443,19 +428,18 @@
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnNuevo;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtObservacion;
         private System.Windows.Forms.ComboBox cmbEstado;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtReservaId;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DateTimePicker dtpReserva;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox cmbTipoDia;
         private System.Windows.Forms.DataGridViewTextBoxColumn vehiculo_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn vehiculo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn precio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn precio_vehiculo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn precio_normal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn precio_finsemana;
+        private System.Windows.Forms.DataGridViewTextBoxColumn precio_feriado;
         private System.Windows.Forms.DataGridViewTextBoxColumn dias;
         private System.Windows.Forms.DataGridViewTextBoxColumn subtotal;
         private System.Windows.Forms.DataGridViewButtonColumn eliminar;

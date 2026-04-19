@@ -21,7 +21,9 @@ namespace RentCar.procesos
             InitializeComponent();
         }
 
-       private void CargarClientes()
+
+
+        void CargarClientes()
         {
             using (MySqlConnection con = Conexion.obtenerConexion())
             {
@@ -36,14 +38,11 @@ namespace RentCar.procesos
             }
         }
 
-        private void CargarVehiculos()
+        void CargarVehiculos()
         {
             using (MySqlConnection con = Conexion.obtenerConexion())
             {
-                string sql = @"SELECT vehiculo_id, marca 
-                       FROM vehiculos 
-                       WHERE estado='Activo' AND disponible=1";
-
+                string sql = "SELECT vehiculo_id, marca FROM vehiculos WHERE disponible=1";
                 MySqlDataAdapter da = new MySqlDataAdapter(sql, con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -54,58 +53,49 @@ namespace RentCar.procesos
             }
         }
 
-        private void CargarEstado()
+        Dictionary<int, decimal> ObtenerPrecios(int vehiculoId)
         {
-            cmbEstado.Items.Clear();
-            cmbEstado.Items.Add("Pendiente");
-            cmbEstado.Items.Add("Activo");
-            cmbEstado.Items.Add("Cancelado");
+            Dictionary<int, decimal> precios = new Dictionary<int, decimal>();
 
-            cmbEstado.SelectedIndex = 0;
-        }
-
-        void CargarTipoDia()
-        {
             using (MySqlConnection con = Conexion.obtenerConexion())
             {
-                string sql = "SELECT tipo_dia_id, nombre FROM tipo_dia";
-
-                MySqlDataAdapter da = new MySqlDataAdapter(sql, con);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                cmbTipoDia.DataSource = dt;
-                cmbTipoDia.DisplayMember = "nombre";
-                cmbTipoDia.ValueMember = "tipo_dia_id";
-            }
-        }
-
-        private bool VehiculoDisponible(int vehiculoId)
-        {
-            using (MySqlConnection con = Conexion.obtenerConexion())
-            {
-                string sql = @"SELECT COUNT(*) 
-                       FROM reservas r
-                       INNER JOIN reserva_vehiculos rv ON r.reserva_id = rv.reserva_id
-                       WHERE rv.vehiculo_id = @id AND r.estado='Pendiente'";
-
+                string sql = "SELECT tipo_dia_id, precio FROM precios_vehiculo WHERE vehiculo_id=@id";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.Parameters.AddWithValue("@id", vehiculoId);
 
                 con.Open();
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-                con.Close();
+                MySqlDataReader dr = cmd.ExecuteReader();
 
-                return count == 0;
+                while (dr.Read())
+                {
+                    precios.Add(
+                        Convert.ToInt32(dr["tipo_dia_id"]),
+                        Convert.ToDecimal(dr["precio"])
+                    );
+                }
+
+                con.Close();
             }
+
+            return precios;
         }
 
-        decimal CalcularPrecio(int vehiculoId)
+        void CalcularDiasYPrecios(int vehiculoId,
+    out int dn,
+    out int df,
+    out int dfer,
+    out decimal pn,
+    out decimal pf,
+    out decimal pfer,
+    out decimal subtotal)
         {
-            decimal total = 0;
+            dn = df = dfer = 0;
+            pn = pf = pfer = subtotal = 0;
 
-            DateTime inicio = dtpInicio.Value;
-            DateTime fin = dtpFin.Value;
+            var precios = ObtenerPrecios(vehiculoId);
+
+            DateTime inicio = dtpInicio.Value.Date;
+            DateTime fin = dtpFin.Value.Date;
 
             using (MySqlConnection con = Conexion.obtenerConexion())
             {
@@ -113,22 +103,38 @@ namespace RentCar.procesos
 
                 for (DateTime fecha = inicio; fecha < fin; fecha = fecha.AddDays(1))
                 {
-                    int tipoDia = (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday) ? 2 : 1;
+                    int tipo = 1;
 
-                    string sql = "SELECT precio FROM precios_vehiculo WHERE vehiculo_id=@v AND tipo_dia_id=@t";
+                    string sqlF = "SELECT COUNT(*) FROM feriados WHERE fecha=@f";
+                    MySqlCommand cmdF = new MySqlCommand(sqlF, con);
+                    cmdF.Parameters.AddWithValue("@f", fecha);
 
-                    MySqlCommand cmd = new MySqlCommand(sql, con);
-                    cmd.Parameters.AddWithValue("@v", vehiculoId);
-                    cmd.Parameters.AddWithValue("@t", tipoDia);
+                    if (Convert.ToInt32(cmdF.ExecuteScalar()) > 0)
+                    {
+                        tipo = 3;
+                        dfer++;
+                    }
+                    else if (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        tipo = 2;
+                        df++;
+                    }
+                    else
+                    {
+                        dn++;
+                    }
 
-                    decimal precio = Convert.ToDecimal(cmd.ExecuteScalar());
-                    total += precio;
+                    decimal precio = precios.ContainsKey(tipo) ? precios[tipo] : 0;
+
+                    if (tipo == 1) pn += precio;
+                    if (tipo == 2) pf += precio;
+                    if (tipo == 3) pfer += precio;
+
+                    subtotal += precio;
                 }
 
                 con.Close();
             }
-
-            return total;
         }
 
         void CalcularTotal()
@@ -137,50 +143,11 @@ namespace RentCar.procesos
 
             foreach (DataGridViewRow row in dgvDetalle.Rows)
             {
-                if (row.Cells[4].Value != null)
-                    total += Convert.ToDecimal(row.Cells[4].Value);
+                if (row.Cells[7].Value != null)
+                    total += Convert.ToDecimal(row.Cells[7].Value);
             }
 
             txtTotal.Text = total.ToString();
-        }
-
-       private void Limpiar()
-        {
-            txtReservaId.Text = "";
-            cmbCliente.SelectedIndex = -1;
-            cmbVehiculo.SelectedIndex = -1;
-
-            dtpInicio.Value = DateTime.Now;
-            dtpFin.Value = DateTime.Now;
-            dtpReserva.Value = DateTime.Now;
-
-            txtTotal.Text = "0";
-            txtObservacion.Text = "";
-
-            dgvDetalle.Rows.Clear();
-        }
-
-        private bool Validar()
-        {
-            if (cmbCliente.SelectedIndex == -1)
-            {
-                MessageBox.Show("Seleccione cliente");
-                return false;
-            }
-
-            if (dgvDetalle.Rows.Count == 0)
-            {
-                MessageBox.Show("Agregue al menos un vehículo");
-                return false;
-            }
-
-            if (dtpFin.Value <= dtpInicio.Value)
-            {
-                MessageBox.Show("Fechas inválidas");
-                return false;
-            }
-
-            return true;
         }
 
         private void label8_Click(object sender, EventArgs e)
@@ -202,10 +169,9 @@ namespace RentCar.procesos
         {
             CargarClientes();
             CargarVehiculos();
-            CargarEstado();
-            CargarTipoDia();
 
-            txtReservaId.Enabled = false;
+            dtpInicio.MinDate = DateTime.Today;
+            dtpFin.MinDate = DateTime.Today;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -215,118 +181,62 @@ namespace RentCar.procesos
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-
-            if (cmbVehiculo.SelectedIndex == -1)
-            {
-                MessageBox.Show("Seleccione un vehículo");
-                return;
-            }
-
             int vehiculoId = Convert.ToInt32(cmbVehiculo.SelectedValue);
 
-            // ❌ Evitar duplicados en el grid
-            foreach (DataGridViewRow row in dgvDetalle.Rows)
-            {
-                if (row.Cells[0].Value != null &&
-                    row.Cells[0].Value.ToString() == vehiculoId.ToString())
-                {
-                    MessageBox.Show("Este vehículo ya fue agregado");
-                    return;
-                }
-            }
+            decimal precioVehiculo = ObtenerPrecioVehiculo(vehiculoId);
 
-            // ❌ Validar fechas
-            if (dtpFin.Value <= dtpInicio.Value)
-            {
-                MessageBox.Show("La fecha fin debe ser mayor que la fecha inicio");
-                return;
-            }
+            int dn, df, dfer;
+            decimal pn, pf, pfer, subtotal;
 
-            // ❌ Validar disponibilidad (extra seguridad)
-            if (!VehiculoDisponible(vehiculoId))
-            {
-                MessageBox.Show("Vehículo no disponible");
-                return;
-            }
+            CalcularDiasYPrecios(vehiculoId, out dn, out df, out dfer, out pn, out pf, out pfer, out subtotal);
 
-            decimal subtotal = CalcularPrecio(vehiculoId);
-            int dias = (dtpFin.Value - dtpInicio.Value).Days;
+            int totalDias = dn + df + dfer;
 
-            dgvDetalle.Rows.Add(vehiculoId, cmbVehiculo.Text, subtotal / dias, dias, subtotal);
+            dgvDetalle.Rows.Add(
+                vehiculoId,
+                cmbVehiculo.Text,
+                precioVehiculo,
+                pn,
+                pf,
+                pfer,
+                totalDias,
+                subtotal
+            );
 
             CalcularTotal();
+
+        }
+
+        decimal ObtenerPrecioVehiculo(int vehiculoId)
+        {
+            decimal precio = 0;
+
+            using (MySqlConnection con = Conexion.obtenerConexion())
+            {
+                string sql = "SELECT precio_diario FROM Vehiculos WHERE vehiculo_id=@id";
+                MySqlCommand cmd = new MySqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@id", vehiculoId);
+
+                con.Open();
+                object result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                    precio = Convert.ToDecimal(result);
+
+                con.Close();
+            }
+
+            return precio;
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
-            Limpiar();
 
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (!Validar()) return;
-
-            using (MySqlConnection con = Conexion.obtenerConexion())
-            {
-                con.Open();
-                MySqlTransaction trans = con.BeginTransaction();
-
-                try
-                {
-                    string sql = @"INSERT INTO reservas
-                          (cliente_id, fecha_reserva, fecha_inicio, fecha_fin, estado)
-                          VALUES(@cliente, @reserva, @inicio, @fin, @estado)";
-
-                    MySqlCommand cmd = new MySqlCommand(sql, con, trans);
-
-                    cmd.Parameters.AddWithValue("@cliente", cmbCliente.SelectedValue);
-                    cmd.Parameters.AddWithValue("@reserva", dtpReserva.Value);
-                    cmd.Parameters.AddWithValue("@inicio", dtpInicio.Value);
-                    cmd.Parameters.AddWithValue("@fin", dtpFin.Value);
-                    cmd.Parameters.AddWithValue("@estado", cmbEstado.Text);
-
-                    cmd.ExecuteNonQuery();
-
-                    int reservaId = Convert.ToInt32(cmd.LastInsertedId);
-
-                    foreach (DataGridViewRow row in dgvDetalle.Rows)
-                    {
-                        if (row.Cells[0].Value == null) continue;
-
-                        string sqlDet = @"INSERT INTO reserva_vehiculos
-            (reserva_id, vehiculo_id, precio_unitario, dias, subtotal)
-            VALUES(@reserva, @vehiculo, @precio, @dias, @subtotal)";
-
-                        MySqlCommand cmdDet = new MySqlCommand(sqlDet, con, trans);
-
-                        cmdDet.Parameters.AddWithValue("@reserva", reservaId);
-                        cmdDet.Parameters.AddWithValue("@vehiculo", row.Cells[0].Value);
-                        cmdDet.Parameters.AddWithValue("@precio", row.Cells[2].Value);
-                        cmdDet.Parameters.AddWithValue("@dias", row.Cells[3].Value);
-                        cmdDet.Parameters.AddWithValue("@subtotal", row.Cells[4].Value);
-
-                        cmdDet.ExecuteNonQuery();
-
-                        // 🔥 BLOQUEAR VEHÍCULO (IMPORTANTE)
-                        string updateVehiculo = "UPDATE Vehiculos SET disponible = 0 WHERE vehiculo_id=@id";
-                        MySqlCommand cmdUpdate = new MySqlCommand(updateVehiculo, con, trans);
-                        cmdUpdate.Parameters.AddWithValue("@id", row.Cells[0].Value);
-                        cmdUpdate.ExecuteNonQuery();
-                    }
-
-                    trans.Commit();
-                    MessageBox.Show("Guardado");
-
-                    CargarVehiculos();
-                    Limpiar();
-                }
-                catch (Exception ex)
-                {
-                    trans.Rollback();
-                    MessageBox.Show(ex.Message);
-                }
-            }
+            
         }
 
         private void dgvDetalle_RowsRemoved(object sender, DataGridViewCellEventArgs e)
@@ -342,6 +252,12 @@ namespace RentCar.procesos
 
                 CalcularTotal();
             }
+        }
+
+        private void dtpInicio_ValueChanged(object sender, EventArgs e)
+        {
+            dtpFin.MinDate = dtpInicio.Value.AddDays(1);
+
         }
     }
 }
