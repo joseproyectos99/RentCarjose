@@ -234,6 +234,7 @@ namespace RentCar.Mantenimientos
 
             try
             {
+                // 🔹 INSERT VEHÍCULO
                 string query = @"INSERT INTO Vehiculos
         (marca, modelo, anio, placa, color, precio_diario, gama_id, imagen, disponible)
         VALUES(@marca, @modelo, @anio, @placa, @color, @precio, @gama, @imagen, @disponible)";
@@ -252,7 +253,28 @@ namespace RentCar.Mantenimientos
 
                 cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Vehículo agregado");
+                // 🔥 OBTENER ID DEL VEHÍCULO
+                int vehiculoId = Convert.ToInt32(cmd.LastInsertedId);
+
+                // 🔥 INSERTAR PRECIOS AUTOMÁTICOS
+                string insertPrecios = @"INSERT INTO Precios_Vehiculo 
+        (vehiculo_id, tipo_dia_id, precio) VALUES
+        (@vehiculo, 1, @precioNormal),
+        (@vehiculo, 2, @precioFinSemana),
+        (@vehiculo, 3, @precioFeriado)";
+
+                MySqlCommand cmdPrecios = new MySqlCommand(insertPrecios, con);
+
+                decimal precioBase = Convert.ToDecimal(txtPrecio.Text);
+
+                cmdPrecios.Parameters.AddWithValue("@vehiculo", vehiculoId);
+                cmdPrecios.Parameters.AddWithValue("@precioNormal", precioBase);
+                cmdPrecios.Parameters.AddWithValue("@precioFinSemana", precioBase + 500);
+                cmdPrecios.Parameters.AddWithValue("@precioFeriado", precioBase + 1000);
+
+                cmdPrecios.ExecuteNonQuery();
+
+                MessageBox.Show("Vehículo agregado con precios correctamente");
             }
             catch (Exception ex)
             {
@@ -295,17 +317,18 @@ namespace RentCar.Mantenimientos
 
             try
             {
+                // 🔹 ACTUALIZAR VEHÍCULO
                 string query = @"UPDATE Vehiculos SET 
-            marca=@marca,
-            modelo=@modelo,
-            anio=@anio,
-            placa=@placa,
-            color=@color,
-            precio_diario=@precio,
-            gama_id=@gama,
-            imagen=@imagen,
-            disponible=@disponible
-            WHERE vehiculo_id=@id";
+        marca=@marca,
+        modelo=@modelo,
+        anio=@anio,
+        placa=@placa,
+        color=@color,
+        precio_diario=@precio,
+        gama_id=@gama,
+        imagen=@imagen,
+        disponible=@disponible
+        WHERE vehiculo_id=@id";
 
                 MySqlCommand cmd = new MySqlCommand(query, con);
 
@@ -324,7 +347,31 @@ namespace RentCar.Mantenimientos
 
                 cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Vehículo modificado");
+                // 🔥 ELIMINAR PRECIOS ANTERIORES
+                string delete = "DELETE FROM Precios_Vehiculo WHERE vehiculo_id=@vehiculo";
+                MySqlCommand cmdDelete = new MySqlCommand(delete, con);
+                cmdDelete.Parameters.AddWithValue("@vehiculo", txtCodigo.Text);
+                cmdDelete.ExecuteNonQuery();
+
+                // 🔥 INSERTAR NUEVOS PRECIOS
+                string insertPrecios = @"INSERT INTO Precios_Vehiculo 
+        (vehiculo_id, tipo_dia_id, precio) VALUES
+        (@vehiculo, 1, @precioNormal),
+        (@vehiculo, 2, @precioFinSemana),
+        (@vehiculo, 3, @precioFeriado)";
+
+                MySqlCommand cmdInsert = new MySqlCommand(insertPrecios, con);
+
+                decimal precioBase = Convert.ToDecimal(txtPrecio.Text);
+
+                cmdInsert.Parameters.AddWithValue("@vehiculo", txtCodigo.Text);
+                cmdInsert.Parameters.AddWithValue("@precioNormal", precioBase);
+                cmdInsert.Parameters.AddWithValue("@precioFinSemana", precioBase + 500);
+                cmdInsert.Parameters.AddWithValue("@precioFeriado", precioBase + 1000);
+
+                cmdInsert.ExecuteNonQuery();
+
+                MessageBox.Show("Vehículo modificado correctamente");
             }
             catch (Exception ex)
             {
