@@ -172,5 +172,18 @@ namespace RentCar
             FrmAlquiler frm = new FrmAlquiler();
                 frm.Show();
         }
+
+        private void btnPagos_Click(object sender, EventArgs e)
+        {
+
+            FrmPagos frm = new FrmPagos();
+            frm.Show();
+        }
+
+        private void btnDevolucion_Click(object sender, EventArgs e)
+        {
+            FrmDevolucion frm = new FrmDevolucion();
+            frm.Show();
+        }
     }
 }

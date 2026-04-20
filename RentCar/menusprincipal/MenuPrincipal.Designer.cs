@@ -292,6 +292,7 @@
             this.btnPagos.TabIndex = 6;
             this.btnPagos.Text = "Pagos";
             this.btnPagos.UseVisualStyleBackColor = true;
+            this.btnPagos.Click += new System.EventHandler(this.btnPagos_Click);
             // 
             // btnAlquiler
             // 
@@ -311,6 +312,7 @@
             this.btnDevolucion.TabIndex = 5;
             this.btnDevolucion.Text = "Devolucion";
             this.btnDevolucion.UseVisualStyleBackColor = true;
+            this.btnDevolucion.Click += new System.EventHandler(this.btnDevolucion_Click);
             // 
             // btnProcesos
             // 

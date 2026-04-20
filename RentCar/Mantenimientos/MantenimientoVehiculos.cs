@@ -457,6 +457,9 @@ namespace RentCar.Mantenimientos
             }
         }
 
-     
+        private void cbGama_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -172,6 +172,9 @@ namespace RentCar.procesos
 
             dtpInicio.MinDate = DateTime.Today;
             dtpFin.MinDate = DateTime.Today;
+
+            cmbEstado.Text = "Pendiente";
+            cmbEstado.Enabled = false;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -231,12 +234,103 @@ namespace RentCar.procesos
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
+            txtTotal.Clear();
 
+            // 🔹 Resetear ComboBox
+            cmbCliente.SelectedIndex = -1;
+            cmbVehiculo.SelectedIndex = -1;
+
+            // 🔹 Limpiar DataGridView
+            dgvDetalle.Rows.Clear();
+
+            // 🔹 Resetear fechas
+            dtpInicio.Value = DateTime.Today;
+            dtpFin.Value = DateTime.Today.AddDays(1);
+
+            // 🔹 Estado (si tienes uno)
+            // cbEstado.SelectedIndex = 0; // opcional
+
+            // 🔹 Volver a cargar datos (por si cambió disponibilidad)
+            CargarVehiculos();
+            CargarClientes();
+
+            // 🔹 Enfocar al inicio
+            cmbCliente.Focus();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            
+            if (cmbCliente.SelectedValue == null || dgvDetalle.Rows.Count == 0)
+            {
+                MessageBox.Show("Debe seleccionar cliente y agregar al menos un vehículo");
+                return;
+            }
+
+            MySqlConnection con = Conexion.obtenerConexion();
+            con.Open();
+
+            MySqlTransaction trans = con.BeginTransaction();
+
+            try
+            {
+                // 🔹 INSERTAR RESERVA
+                string insertReserva = @"INSERT INTO Reservas
+        (cliente_id, fecha_reserva, fecha_inicio, fecha_fin, estado)
+        VALUES (@cliente, @fecha_reserva, @inicio, @fin, @estado)";
+
+                MySqlCommand cmdReserva = new MySqlCommand(insertReserva, con, trans);
+
+                cmdReserva.Parameters.AddWithValue("@cliente", cmbCliente.SelectedValue);
+                cmdReserva.Parameters.AddWithValue("@fecha_reserva", DateTime.Now);
+                cmdReserva.Parameters.AddWithValue("@inicio", dtpInicio.Value.Date);
+                cmdReserva.Parameters.AddWithValue("@fin", dtpFin.Value.Date);
+
+                // 🔥 ESTADO CORRECTO
+                cmdReserva.Parameters.AddWithValue("@estado", "Pendiente");
+
+                cmdReserva.ExecuteNonQuery();
+
+                int reservaId = Convert.ToInt32(cmdReserva.LastInsertedId);
+
+                // 🔹 INSERTAR DETALLE (vehículos)
+                foreach (DataGridViewRow row in dgvDetalle.Rows)
+                {
+                    if (row.Cells[0].Value == null) continue;
+
+                    int vehiculoId = Convert.ToInt32(row.Cells[0].Value);
+                    decimal precioUnitario = Convert.ToDecimal(row.Cells[2].Value);
+                    int dias = Convert.ToInt32(row.Cells[6].Value);
+                    decimal subtotal = Convert.ToDecimal(row.Cells[7].Value);
+
+                    string insertDetalle = @"INSERT INTO Reserva_Vehiculos
+            (reserva_id, vehiculo_id, precio_unitario, dias, subtotal)
+            VALUES (@reserva, @vehiculo, @precio, @dias, @subtotal)";
+
+                    MySqlCommand cmdDetalle = new MySqlCommand(insertDetalle, con, trans);
+
+                    cmdDetalle.Parameters.AddWithValue("@reserva", reservaId);
+                    cmdDetalle.Parameters.AddWithValue("@vehiculo", vehiculoId);
+                    cmdDetalle.Parameters.AddWithValue("@precio", precioUnitario);
+                    cmdDetalle.Parameters.AddWithValue("@dias", dias);
+                    cmdDetalle.Parameters.AddWithValue("@subtotal", subtotal);
+
+                    cmdDetalle.ExecuteNonQuery();
+                }
+
+                trans.Commit();
+
+                MessageBox.Show("Alquiler guardado correctamente (Pendiente)");
+
+                dgvDetalle.Rows.Clear();
+                txtTotal.Clear();
+            }
+            catch (Exception ex)
+            {
+                trans.Rollback();
+                MessageBox.Show("Error: " + ex.Message);
+            }
+
+            con.Close();
         }
 
         private void dgvDetalle_RowsRemoved(object sender, DataGridViewCellEventArgs e)

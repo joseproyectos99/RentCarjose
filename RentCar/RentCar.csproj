@@ -320,6 +320,18 @@
     <Compile Include="procesos\FrmAlquiler.Designer.cs">
       <DependentUpon>FrmAlquiler.cs</DependentUpon>
     </Compile>
+    <Compile Include="procesos\FrmDevolucion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="procesos\FrmDevolucion.Designer.cs">
+      <DependentUpon>FrmDevolucion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="procesos\FrmPagos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="procesos\FrmPagos.Designer.cs">
+      <DependentUpon>FrmPagos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="logins\Login.resx">
@@ -345,6 +357,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="procesos\FrmAlquiler.resx">
       <DependentUpon>FrmAlquiler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="procesos\FrmDevolucion.resx">
+      <DependentUpon>FrmDevolucion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="procesos\FrmPagos.resx">
+      <DependentUpon>FrmPagos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

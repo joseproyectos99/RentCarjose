@@ -43,14 +43,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.dgvDetalle = new System.Windows.Forms.DataGridView();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnNuevo = new System.Windows.Forms.Button();
-            this.cmbEstado = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtReservaId = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.dtpReserva = new System.Windows.Forms.DateTimePicker();
             this.vehiculo_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vehiculo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.precio_vehiculo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +52,14 @@
             this.dias = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eliminar = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnNuevo = new System.Windows.Forms.Button();
+            this.cmbEstado = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtReservaId = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.dtpReserva = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
@@ -72,7 +72,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1214, 98);
+            this.panel1.Size = new System.Drawing.Size(1214, 92);
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -102,7 +102,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(343, 323);
+            this.label7.Location = new System.Drawing.Point(381, 332);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(62, 24);
             this.label7.TabIndex = 7;
@@ -112,7 +112,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(332, 227);
+            this.label8.Location = new System.Drawing.Point(58, 332);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(111, 24);
             this.label8.TabIndex = 8;
@@ -123,7 +123,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(44, 332);
+            this.label9.Location = new System.Drawing.Point(343, 227);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(135, 24);
             this.label9.TabIndex = 9;
@@ -133,7 +133,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(343, 123);
+            this.label3.Location = new System.Drawing.Point(363, 123);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(80, 24);
             this.label3.TabIndex = 2;
@@ -142,29 +142,29 @@
             // cmbCliente
             // 
             this.cmbCliente.FormattingEnabled = true;
-            this.cmbCliente.Location = new System.Drawing.Point(304, 165);
+            this.cmbCliente.Location = new System.Drawing.Point(285, 165);
             this.cmbCliente.Name = "cmbCliente";
-            this.cmbCliente.Size = new System.Drawing.Size(154, 28);
+            this.cmbCliente.Size = new System.Drawing.Size(239, 28);
             this.cmbCliente.TabIndex = 10;
             // 
             // dtpInicio
             // 
-            this.dtpInicio.Location = new System.Drawing.Point(3, 370);
+            this.dtpInicio.Location = new System.Drawing.Point(285, 271);
             this.dtpInicio.Name = "dtpInicio";
-            this.dtpInicio.Size = new System.Drawing.Size(220, 26);
+            this.dtpInicio.Size = new System.Drawing.Size(239, 26);
             this.dtpInicio.TabIndex = 11;
             this.dtpInicio.ValueChanged += new System.EventHandler(this.dtpInicio_ValueChanged);
             // 
             // dtpFin
             // 
-            this.dtpFin.Location = new System.Drawing.Point(285, 271);
+            this.dtpFin.Location = new System.Drawing.Point(9, 372);
             this.dtpFin.Name = "dtpFin";
-            this.dtpFin.Size = new System.Drawing.Size(186, 26);
+            this.dtpFin.Size = new System.Drawing.Size(223, 26);
             this.dtpFin.TabIndex = 12;
             // 
             // txtTotal
             // 
-            this.txtTotal.Location = new System.Drawing.Point(258, 370);
+            this.txtTotal.Location = new System.Drawing.Point(285, 372);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(239, 26);
@@ -186,9 +186,9 @@
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.cmbVehiculo);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(606, 98);
+            this.panel2.Location = new System.Drawing.Point(606, 92);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(608, 585);
+            this.panel2.Size = new System.Drawing.Size(608, 591);
             this.panel2.TabIndex = 15;
             // 
             // btnAgregar
@@ -217,7 +217,7 @@
             this.subtotal,
             this.eliminar});
             this.dgvDetalle.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dgvDetalle.Location = new System.Drawing.Point(0, 192);
+            this.dgvDetalle.Location = new System.Drawing.Point(0, 198);
             this.dgvDetalle.Name = "dgvDetalle";
             this.dgvDetalle.RowHeadersWidth = 62;
             this.dgvDetalle.RowTemplate.Height = 28;
@@ -225,86 +225,6 @@
             this.dgvDetalle.Size = new System.Drawing.Size(608, 393);
             this.dgvDetalle.TabIndex = 15;
             this.dgvDetalle.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalle_RowsRemoved);
-            // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Location = new System.Drawing.Point(48, 532);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(143, 66);
-            this.btnGuardar.TabIndex = 19;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-            // 
-            // btnNuevo
-            // 
-            this.btnNuevo.Location = new System.Drawing.Point(262, 532);
-            this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(143, 66);
-            this.btnNuevo.TabIndex = 20;
-            this.btnNuevo.Text = "Nuevo";
-            this.btnNuevo.UseVisualStyleBackColor = true;
-            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
-            // 
-            // cmbEstado
-            // 
-            this.cmbEstado.FormattingEnabled = true;
-            this.cmbEstado.Items.AddRange(new object[] {
-            "Pendiente",
-            "",
-            "Activo",
-            "",
-            "Cancelado"});
-            this.cmbEstado.Location = new System.Drawing.Point(120, 465);
-            this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(239, 28);
-            this.cmbEstado.TabIndex = 23;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(197, 425);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 24);
-            this.label5.TabIndex = 24;
-            this.label5.Text = "Estado";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(58, 123);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(130, 24);
-            this.label6.TabIndex = 25;
-            this.label6.Text = "Reserva (id)";
-            // 
-            // txtReservaId
-            // 
-            this.txtReservaId.Location = new System.Drawing.Point(21, 167);
-            this.txtReservaId.Name = "txtReservaId";
-            this.txtReservaId.ReadOnly = true;
-            this.txtReservaId.Size = new System.Drawing.Size(211, 26);
-            this.txtReservaId.TabIndex = 26;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(25, 227);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(198, 24);
-            this.label10.TabIndex = 27;
-            this.label10.Text = "Fecha de la reserva";
-            // 
-            // dtpReserva
-            // 
-            this.dtpReserva.Location = new System.Drawing.Point(12, 271);
-            this.dtpReserva.Name = "dtpReserva";
-            this.dtpReserva.Size = new System.Drawing.Size(220, 26);
-            this.dtpReserva.TabIndex = 28;
             // 
             // vehiculo_id
             // 
@@ -371,6 +291,85 @@
             this.eliminar.Text = "X";
             this.eliminar.UseColumnTextForButtonValue = true;
             this.eliminar.Width = 150;
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Location = new System.Drawing.Point(48, 532);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(143, 66);
+            this.btnGuardar.TabIndex = 19;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
+            // btnNuevo
+            // 
+            this.btnNuevo.Location = new System.Drawing.Point(262, 532);
+            this.btnNuevo.Name = "btnNuevo";
+            this.btnNuevo.Size = new System.Drawing.Size(143, 66);
+            this.btnNuevo.TabIndex = 20;
+            this.btnNuevo.Text = "Nuevo";
+            this.btnNuevo.UseVisualStyleBackColor = true;
+            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
+            // 
+            // cmbEstado
+            // 
+            this.cmbEstado.FormattingEnabled = true;
+            this.cmbEstado.Items.AddRange(new object[] {
+            "Pendiente",
+            "Activo",
+            "Cancelado",
+            "finalizado"});
+            this.cmbEstado.Location = new System.Drawing.Point(120, 465);
+            this.cmbEstado.Name = "cmbEstado";
+            this.cmbEstado.Size = new System.Drawing.Size(239, 28);
+            this.cmbEstado.TabIndex = 23;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(197, 425);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 24);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Estado";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(58, 123);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 24);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Reserva (id)";
+            // 
+            // txtReservaId
+            // 
+            this.txtReservaId.Location = new System.Drawing.Point(21, 167);
+            this.txtReservaId.Name = "txtReservaId";
+            this.txtReservaId.ReadOnly = true;
+            this.txtReservaId.Size = new System.Drawing.Size(211, 26);
+            this.txtReservaId.TabIndex = 26;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(25, 227);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(198, 24);
+            this.label10.TabIndex = 27;
+            this.label10.Text = "Fecha de la reserva";
+            // 
+            // dtpReserva
+            // 
+            this.dtpReserva.Location = new System.Drawing.Point(12, 271);
+            this.dtpReserva.Name = "dtpReserva";
+            this.dtpReserva.Size = new System.Drawing.Size(220, 26);
+            this.dtpReserva.TabIndex = 28;
             // 
             // FrmAlquiler
             // 

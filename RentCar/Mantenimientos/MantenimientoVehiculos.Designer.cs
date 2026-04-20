@@ -208,6 +208,7 @@
             this.cbGama.Name = "cbGama";
             this.cbGama.Size = new System.Drawing.Size(245, 28);
             this.cbGama.TabIndex = 16;
+            this.cbGama.SelectedIndexChanged += new System.EventHandler(this.cbGama_SelectedIndexChanged);
             // 
             // numAnio
             // 
