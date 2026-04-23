@@ -58,16 +58,16 @@
             this.btnVehiculos = new System.Windows.Forms.Button();
             this.btnClientes = new System.Windows.Forms.Button();
             this.btnMantenimientos = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panelMenu.SuspendLayout();
             this.panelReportes.SuspendLayout();
             this.panelConsultas.SuspendLayout();
             this.panelProcesos.SuspendLayout();
             this.panelMantenimientos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -220,6 +220,7 @@
             this.btnEstadoCuenta.TabIndex = 3;
             this.btnEstadoCuenta.Text = "estado de cuenta por alquiler";
             this.btnEstadoCuenta.UseVisualStyleBackColor = true;
+            this.btnEstadoCuenta.Click += new System.EventHandler(this.btnEstadoCuenta_Click);
             // 
             // btnVehiculosAlquilados
             // 
@@ -239,6 +240,7 @@
             this.btnHistorialCliente.TabIndex = 2;
             this.btnHistorialCliente.Text = "Historial de alquileres por cliente";
             this.btnHistorialCliente.UseVisualStyleBackColor = true;
+            this.btnHistorialCliente.Click += new System.EventHandler(this.btnHistorialCliente_Click);
             // 
             // btnAlquilerActivos
             // 
@@ -248,6 +250,7 @@
             this.btnAlquilerActivos.TabIndex = 1;
             this.btnAlquilerActivos.Text = "Alquileres activos";
             this.btnAlquilerActivos.UseVisualStyleBackColor = true;
+            this.btnAlquilerActivos.Click += new System.EventHandler(this.btnAlquilerActivos_Click);
             // 
             // btnVehiculosDisponibles
             // 
@@ -257,6 +260,7 @@
             this.btnVehiculosDisponibles.TabIndex = 0;
             this.btnVehiculosDisponibles.Text = "Vehiculos Disponible";
             this.btnVehiculosDisponibles.UseVisualStyleBackColor = true;
+            this.btnVehiculosDisponibles.Click += new System.EventHandler(this.btnVehiculosDisponibles_Click);
             // 
             // btnConsultas
             // 
@@ -398,18 +402,6 @@
             this.btnMantenimientos.UseVisualStyleBackColor = false;
             this.btnMantenimientos.Click += new System.EventHandler(this.btnMantenimientos_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(252, 177);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // pictureBox2
             // 
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -421,6 +413,18 @@
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(252, 177);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // MenuPrincipal
             // 
@@ -441,8 +445,8 @@
             this.panelConsultas.ResumeLayout(false);
             this.panelProcesos.ResumeLayout(false);
             this.panelMantenimientos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

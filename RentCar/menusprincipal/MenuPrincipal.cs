@@ -1,4 +1,5 @@
-﻿using RentCar.Mantenimientos;
+﻿using RentCar.Consultas;
+using RentCar.Mantenimientos;
 using RentCar.procesos;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,8 @@ namespace RentCar
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            FrmVehiculosPorTipoDia frm = new FrmVehiculosPorTipoDia();
+            frm.Show();
         }
 
         private void btnConsultas_Click(object sender, EventArgs e)
@@ -184,6 +186,30 @@ namespace RentCar
         {
             FrmDevolucion frm = new FrmDevolucion();
             frm.Show();
+        }
+
+        private void btnVehiculosDisponibles_Click(object sender, EventArgs e)
+        {
+            FrmVehiculosDisponibles frm = new FrmVehiculosDisponibles();
+            frm.ShowDialog();
+        }
+
+        private void btnAlquilerActivos_Click(object sender, EventArgs e)
+        {
+            FrmVehiculosAlquilados frm = new FrmVehiculosAlquilados();
+            frm.ShowDialog();
+        }
+
+        private void btnHistorialCliente_Click(object sender, EventArgs e)
+        {
+            FrmHistorialCliente frm = new FrmHistorialCliente();
+            frm.ShowDialog();
+        }
+
+        private void btnEstadoCuenta_Click(object sender, EventArgs e)
+        {
+            FrmEstadoCuenta frm = new FrmEstadoCuenta();
+            frm.ShowDialog();
         }
     }
 }
