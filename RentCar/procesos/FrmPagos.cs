@@ -65,7 +65,7 @@ namespace RentCar.procesos
 
                 dgvDetalle.DataSource = dt;
 
-                // 🔥 CALCULAR TOTAL
+     
                 decimal total = 0;
                 foreach (DataRow row in dt.Rows)
                 {
@@ -118,10 +118,10 @@ namespace RentCar.procesos
                 int reservaId = Convert.ToInt32(cmbReserva.SelectedValue);
                 decimal total = Convert.ToDecimal(txtTotal.Text);
 
-                // 🔹 INSERTAR PAGO
                 string insertPago = @"INSERT INTO Pagos
-        (reserva_id, fecha_pago, metodo, total)
-        VALUES (@reserva, @fecha, @metodo, @total)";
+(reserva_id, fecha_pago, metodo, total, tipo)
+VALUES (@reserva, @fecha, @metodo, @total, 'Alquiler')";
+                ;
 
                 MySqlCommand cmdPago = new MySqlCommand(insertPago, con, trans);
 
@@ -134,7 +134,6 @@ namespace RentCar.procesos
 
                 int pagoId = Convert.ToInt32(cmdPago.LastInsertedId);
 
-                // 🔹 INSERTAR DETALLE DE PAGO
                 foreach (DataGridViewRow row in dgvDetalle.Rows)
                 {
                     if (row.Cells["vehiculo_id"].Value == null) continue;
@@ -154,7 +153,6 @@ namespace RentCar.procesos
 
                     cmdDetalle.ExecuteNonQuery();
 
-                    // 🔥 BLOQUEAR VEHÍCULO
                     string updateVehiculo = "UPDATE Vehiculos SET disponible=0 WHERE vehiculo_id=@id";
                     MySqlCommand cmdVehiculo = new MySqlCommand(updateVehiculo, con, trans);
                     cmdVehiculo.Parameters.AddWithValue("@id", vehiculoId);

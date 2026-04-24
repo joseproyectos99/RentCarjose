@@ -181,6 +181,9 @@
     <Reference Include="itext.barcodes, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\itext.9.6.0\lib\net461\itext.barcodes.dll</HintPath>
     </Reference>
+    <Reference Include="itext.bouncy-castle-adapter, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.bouncy-castle-adapter.9.6.0\lib\net461\itext.bouncy-castle-adapter.dll</HintPath>
+    </Reference>
     <Reference Include="itext.bouncy-castle-connector, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\itext.9.6.0\lib\net461\itext.bouncy-castle-connector.dll</HintPath>
     </Reference>
@@ -448,6 +451,18 @@
     <Compile Include="procesos\FrmDevolucion.Designer.cs">
       <DependentUpon>FrmDevolucion.cs</DependentUpon>
     </Compile>
+    <Compile Include="procesos\FrmPagoExtras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="procesos\FrmPagoExtras.Designer.cs">
+      <DependentUpon>FrmPagoExtras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="procesos\FrmPagoPenalidades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="procesos\FrmPagoPenalidades.Designer.cs">
+      <DependentUpon>FrmPagoPenalidades.cs</DependentUpon>
+    </Compile>
     <Compile Include="procesos\FrmPagos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -456,6 +471,36 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\FrmClientesFrecuentes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\FrmClientesFrecuentes.Designer.cs">
+      <DependentUpon>FrmClientesFrecuentes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\FrmIngresosPorFecha.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\FrmIngresosPorFecha.Designer.cs">
+      <DependentUpon>FrmIngresosPorFecha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\FrmPenalidadesGenerales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\FrmPenalidadesGenerales.Designer.cs">
+      <DependentUpon>FrmPenalidadesGenerales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\FrmVehiculosFeriados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\FrmVehiculosFeriados.Designer.cs">
+      <DependentUpon>FrmVehiculosFeriados.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\FrmVehiculosMasAlquilados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\FrmVehiculosMasAlquilados.Designer.cs">
+      <DependentUpon>FrmVehiculosMasAlquilados.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Consultas\FrmEstadoCuenta.resx">
       <DependentUpon>FrmEstadoCuenta.cs</DependentUpon>
     </EmbeddedResource>
@@ -498,6 +543,12 @@
     <EmbeddedResource Include="procesos\FrmDevolucion.resx">
       <DependentUpon>FrmDevolucion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="procesos\FrmPagoExtras.resx">
+      <DependentUpon>FrmPagoExtras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="procesos\FrmPagoPenalidades.resx">
+      <DependentUpon>FrmPagoPenalidades.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="procesos\FrmPagos.resx">
       <DependentUpon>FrmPagos.cs</DependentUpon>
     </EmbeddedResource>
@@ -511,6 +562,21 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reportes\FrmClientesFrecuentes.resx">
+      <DependentUpon>FrmClientesFrecuentes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\FrmIngresosPorFecha.resx">
+      <DependentUpon>FrmIngresosPorFecha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\FrmPenalidadesGenerales.resx">
+      <DependentUpon>FrmPenalidadesGenerales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\FrmVehiculosFeriados.resx">
+      <DependentUpon>FrmVehiculosFeriados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\FrmVehiculosMasAlquilados.resx">
+      <DependentUpon>FrmVehiculosMasAlquilados.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Oracle.DataAccess.Common.Configuration.Section.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -533,7 +599,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Clases\" />
-    <Folder Include="Reportes\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RentCar_TemporaryKey.pfx" />

@@ -150,7 +150,6 @@ namespace RentCar.Mantenimientos
 
             try
             {
-                // 🔹 Cargar datos
                 txtCodigo.Text = dgvVehiculos.CurrentRow.Cells["Codigo"].Value.ToString();
                 txtMarca.Text = dgvVehiculos.CurrentRow.Cells["marca"].Value.ToString();
                 txtModelo.Text = dgvVehiculos.CurrentRow.Cells["modelo"].Value.ToString();
@@ -164,7 +163,6 @@ namespace RentCar.Mantenimientos
                 string estado = dgvVehiculos.CurrentRow.Cells["disponible"].Value.ToString();
                 cbDisponible.Text = estado;
 
-                // 🔥 CARGAR IMAGEN
                 int id = Convert.ToInt32(txtCodigo.Text);
 
                 MySqlConnection con = Conexion.obtenerConexion();
@@ -197,7 +195,7 @@ namespace RentCar.Mantenimientos
             }
             catch
             {
-                // Evita errores cuando el grid se refresca
+                
             }
         }
 
@@ -218,7 +216,6 @@ namespace RentCar.Mantenimientos
             MySqlConnection con = Conexion.obtenerConexion();
             con.Open();
 
-            // 🔴 VALIDAR SI LA PLACA YA EXISTE
             string validar = "SELECT COUNT(*) FROM Vehiculos WHERE placa = @placa";
             MySqlCommand cmdValidar = new MySqlCommand(validar, con);
             cmdValidar.Parameters.AddWithValue("@placa", txtPlaca.Text);
@@ -234,7 +231,7 @@ namespace RentCar.Mantenimientos
 
             try
             {
-                // 🔹 INSERT VEHÍCULO
+                
                 string query = @"INSERT INTO Vehiculos
         (marca, modelo, anio, placa, color, precio_diario, gama_id, imagen, disponible)
         VALUES(@marca, @modelo, @anio, @placa, @color, @precio, @gama, @imagen, @disponible)";
@@ -253,10 +250,10 @@ namespace RentCar.Mantenimientos
 
                 cmd.ExecuteNonQuery();
 
-                // 🔥 OBTENER ID DEL VEHÍCULO
+                
                 int vehiculoId = Convert.ToInt32(cmd.LastInsertedId);
 
-                // 🔥 INSERTAR PRECIOS AUTOMÁTICOS
+               
                 string insertPrecios = @"INSERT INTO Precios_Vehiculo 
         (vehiculo_id, tipo_dia_id, precio) VALUES
         (@vehiculo, 1, @precioNormal),
@@ -299,7 +296,6 @@ namespace RentCar.Mantenimientos
             MySqlConnection con = Conexion.obtenerConexion();
             con.Open();
 
-            // 🔴 VALIDAR DUPLICADO PERO EXCLUYENDO EL MISMO ID
             string validar = "SELECT COUNT(*) FROM Vehiculos WHERE placa = @placa AND vehiculo_id <> @id";
             MySqlCommand cmdValidar = new MySqlCommand(validar, con);
 
@@ -317,7 +313,6 @@ namespace RentCar.Mantenimientos
 
             try
             {
-                // 🔹 ACTUALIZAR VEHÍCULO
                 string query = @"UPDATE Vehiculos SET 
         marca=@marca,
         modelo=@modelo,
@@ -347,13 +342,11 @@ namespace RentCar.Mantenimientos
 
                 cmd.ExecuteNonQuery();
 
-                // 🔥 ELIMINAR PRECIOS ANTERIORES
                 string delete = "DELETE FROM Precios_Vehiculo WHERE vehiculo_id=@vehiculo";
                 MySqlCommand cmdDelete = new MySqlCommand(delete, con);
                 cmdDelete.Parameters.AddWithValue("@vehiculo", txtCodigo.Text);
                 cmdDelete.ExecuteNonQuery();
 
-                // 🔥 INSERTAR NUEVOS PRECIOS
                 string insertPrecios = @"INSERT INTO Precios_Vehiculo 
         (vehiculo_id, tipo_dia_id, precio) VALUES
         (@vehiculo, 1, @precioNormal),

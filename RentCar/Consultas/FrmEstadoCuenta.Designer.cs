@@ -52,6 +52,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btnImprimir = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtExtras = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalle)).BeginInit();
             this.SuspendLayout();
@@ -194,7 +196,7 @@
             // 
             // txtBalance
             // 
-            this.txtBalance.Location = new System.Drawing.Point(891, 532);
+            this.txtBalance.Location = new System.Drawing.Point(922, 531);
             this.txtBalance.Name = "txtBalance";
             this.txtBalance.ReadOnly = true;
             this.txtBalance.Size = new System.Drawing.Size(245, 26);
@@ -202,33 +204,34 @@
             // 
             // txtPenalidades
             // 
-            this.txtPenalidades.Location = new System.Drawing.Point(596, 531);
+            this.txtPenalidades.Location = new System.Drawing.Point(467, 531);
             this.txtPenalidades.Name = "txtPenalidades";
             this.txtPenalidades.ReadOnly = true;
-            this.txtPenalidades.Size = new System.Drawing.Size(245, 26);
+            this.txtPenalidades.Size = new System.Drawing.Size(151, 26);
             this.txtPenalidades.TabIndex = 66;
             // 
             // txtPagado
             // 
-            this.txtPagado.Location = new System.Drawing.Point(305, 531);
+            this.txtPagado.Location = new System.Drawing.Point(259, 531);
             this.txtPagado.Name = "txtPagado";
             this.txtPagado.ReadOnly = true;
-            this.txtPagado.Size = new System.Drawing.Size(245, 26);
+            this.txtPagado.Size = new System.Drawing.Size(150, 26);
             this.txtPagado.TabIndex = 67;
+            this.txtPagado.TextChanged += new System.EventHandler(this.txtPagado_TextChanged);
             // 
             // txtTotalAlquiler
             // 
             this.txtTotalAlquiler.Location = new System.Drawing.Point(23, 531);
             this.txtTotalAlquiler.Name = "txtTotalAlquiler";
             this.txtTotalAlquiler.ReadOnly = true;
-            this.txtTotalAlquiler.Size = new System.Drawing.Size(245, 26);
+            this.txtTotalAlquiler.Size = new System.Drawing.Size(166, 26);
             this.txtTotalAlquiler.TabIndex = 68;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(980, 505);
+            this.label2.Location = new System.Drawing.Point(1005, 504);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 24);
             this.label2.TabIndex = 69;
@@ -239,7 +242,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(655, 504);
+            this.label8.Location = new System.Drawing.Point(476, 504);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(129, 24);
             this.label8.TabIndex = 70;
@@ -249,7 +252,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(384, 505);
+            this.label9.Location = new System.Drawing.Point(288, 504);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(81, 24);
             this.label9.TabIndex = 71;
@@ -259,11 +262,12 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(64, 504);
+            this.label10.Location = new System.Drawing.Point(19, 504);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(182, 24);
             this.label10.TabIndex = 72;
             this.label10.Text = "Total del alquiler";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // btnImprimir
             // 
@@ -285,12 +289,32 @@
             this.btnCerrar.UseVisualStyleBackColor = true;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Modern No. 20", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(687, 504);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(139, 24);
+            this.label11.TabIndex = 75;
+            this.label11.Text = "cargos extrax";
+            // 
+            // txtExtras
+            // 
+            this.txtExtras.Location = new System.Drawing.Point(690, 531);
+            this.txtExtras.Name = "txtExtras";
+            this.txtExtras.ReadOnly = true;
+            this.txtExtras.Size = new System.Drawing.Size(151, 26);
+            this.txtExtras.TabIndex = 76;
+            // 
             // FrmEstadoCuenta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1192, 581);
+            this.Controls.Add(this.txtExtras);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.label10);
@@ -351,5 +375,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnImprimir;
         private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtExtras;
     }
 }

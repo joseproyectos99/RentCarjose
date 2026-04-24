@@ -76,14 +76,54 @@ namespace RentCar.Consultas
         {
             using (MySqlConnection con = Conexion.obtenerConexion())
             {
-                string sql = @"SELECT 
-            IFNULL(SUM(rv.subtotal),0) AS total_alquiler,
-            IFNULL((SELECT SUM(p.total) FROM Pagos p WHERE p.reserva_id = r.reserva_id),0) AS total_pagado,
-            IFNULL((SELECT SUM(pe.monto) FROM Penalidades pe WHERE pe.reserva_id = r.reserva_id),0) AS penalidades
-        FROM Reservas r
-        LEFT JOIN Reserva_Vehiculos rv ON r.reserva_id = rv.reserva_id
-        WHERE r.reserva_id = @id
-        GROUP BY r.reserva_id";
+                string sql = @"
+SELECT 
+    r.reserva_id,
+
+    -- ALQUILER
+    IFNULL((
+        SELECT SUM(rv.subtotal)
+        FROM Reserva_Vehiculos rv
+        WHERE rv.reserva_id = r.reserva_id
+    ),0) AS total_alquiler,
+
+    -- EXTRAS
+    IFNULL((
+        SELECT SUM(rd.cargo_extra)
+        FROM Recepcion_Detalle rd
+        INNER JOIN Recepciones re ON rd.recepcion_id = re.recepcion_id
+        WHERE re.reserva_id = r.reserva_id
+    ),0) AS total_extras,
+
+    -- PENALIDADES
+    IFNULL((
+        SELECT SUM(pe.monto)
+        FROM Penalidades pe
+        WHERE pe.reserva_id = r.reserva_id
+    ),0) AS penalidades,
+
+    -- PAGOS SEPARADOS
+    IFNULL((
+        SELECT SUM(p.total)
+        FROM Pagos p
+        WHERE p.reserva_id = r.reserva_id AND p.tipo = 'Alquiler'
+    ),0) AS pagado_alquiler,
+
+    IFNULL((
+        SELECT SUM(p.total)
+        FROM Pagos p
+        WHERE p.reserva_id = r.reserva_id AND p.tipo = 'Extra'
+    ),0) AS pagado_extras,
+
+    IFNULL((
+        SELECT SUM(p.total)
+        FROM Pagos p
+        WHERE p.reserva_id = r.reserva_id AND p.tipo = 'Penalidad'
+    ),0) AS pagado_penalidades
+
+FROM Reservas r
+WHERE r.reserva_id = @id
+";
 
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.Parameters.AddWithValue("@id", reservaId);
@@ -94,15 +134,22 @@ namespace RentCar.Consultas
                 if (dr.Read())
                 {
                     decimal total = Convert.ToDecimal(dr["total_alquiler"]);
-                    decimal pagado = Convert.ToDecimal(dr["total_pagado"]);
+                    decimal extras = Convert.ToDecimal(dr["total_extras"]);
                     decimal penalidad = Convert.ToDecimal(dr["penalidades"]);
 
-                    decimal balance = (total + penalidad) - pagado;
+                    decimal pagadoAlquiler = Convert.ToDecimal(dr["pagado_alquiler"]);
+                    decimal pagadoExtras = Convert.ToDecimal(dr["pagado_extras"]);
+                    decimal pagadoPenalidades = Convert.ToDecimal(dr["pagado_penalidades"]);
 
-                    txtTotalAlquiler.Text = total.ToString();
-                    txtPagado.Text = pagado.ToString();
-                    txtPenalidades.Text = penalidad.ToString();
-                    txtBalance.Text = balance.ToString();
+                    decimal totalPagado = pagadoAlquiler + pagadoExtras + pagadoPenalidades;
+
+                    decimal balance = (total + extras + penalidad) - totalPagado;
+
+                    txtTotalAlquiler.Text = total.ToString("N2");
+                    txtPagado.Text = totalPagado.ToString("N2");
+                    txtPenalidades.Text = penalidad.ToString("N2");
+                    txtExtras.Text = extras.ToString("N2");
+                    txtBalance.Text = balance.ToString("N2");
                 }
 
                 con.Close();
@@ -172,11 +219,10 @@ namespace RentCar.Consultas
                 using (PdfDocument pdf = new PdfDocument(writer))
                 using (Document doc = new Document(pdf))
                 {
-                    // 🔤 FUENTES
+                    
                     PdfFont font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
                     PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
 
-                    // 🟩 ENCABEZADO
                     Paragraph titulo = new Paragraph("RENT CAR")
                         .SetFont(bold)
                         .SetFontSize(20)
@@ -213,7 +259,7 @@ namespace RentCar.Consultas
 
                     doc.Add(new Paragraph(" "));
 
-                    // 📊 TABLA DETALLE
+                    
                     Table tabla = new Table(4).UseAllAvailableWidth();
 
                     tabla.AddHeaderCell(new Cell().Add(new Paragraph("Vehículo").SetFont(bold)).SetBackgroundColor(ColorConstants.LIGHT_GRAY));
@@ -235,7 +281,7 @@ namespace RentCar.Consultas
 
                     doc.Add(new Paragraph(" "));
 
-                    // 💰 TOTALES
+                  
                     Table totales = new Table(2)
                         .SetWidth(250)
                         .SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.RIGHT);
@@ -248,6 +294,9 @@ namespace RentCar.Consultas
 
                     totales.AddCell(new Cell().Add(new Paragraph("Penalidades:").SetFont(bold)));
                     totales.AddCell(new Cell().Add(new Paragraph("RD$ " + txtPenalidades.Text)));
+
+                    totales.AddCell(new Cell().Add(new Paragraph("Extras:").SetFont(bold)));
+                    totales.AddCell(new Cell().Add(new Paragraph("RD$ " + txtExtras.Text)));
 
                     Cell lblBalance = new Cell().Add(new Paragraph("BALANCE:").SetFont(bold));
                     Cell valBalance = new Cell().Add(new Paragraph("RD$ " + txtBalance.Text).SetFont(bold));
@@ -277,6 +326,16 @@ namespace RentCar.Consultas
             {
                 MessageBox.Show("Error real: " + ex.ToString()); // 🔥 importante
             }
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPagado_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

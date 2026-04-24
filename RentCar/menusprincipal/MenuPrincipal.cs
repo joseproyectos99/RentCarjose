@@ -1,6 +1,7 @@
 ﻿using RentCar.Consultas;
 using RentCar.Mantenimientos;
 using RentCar.procesos;
+using RentCar.Reportes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -59,7 +60,7 @@ namespace RentCar
             if (panelProcesos.Height == 0)
             {
                 OcultarPaneles();
-                panelProcesos.Height = 180;
+                panelProcesos.Height = 350;
             }
             else
             {
@@ -142,7 +143,7 @@ namespace RentCar
                 Form1 login = new Form1();
                 login.Show();
 
-                this.Hide(); // 🔥 IMPORTANTE: NO usar Close()
+                this.Hide(); 
             }
         }
 
@@ -161,7 +162,6 @@ namespace RentCar
         {
             if (rolUsuario == "Empleado")
             {
-                // 🔴 BLOQUEAR
                 btnUsuarios.Enabled = false;
                 btnGamas.Enabled = false;
                 btnVehiculos.Enabled = false;
@@ -191,13 +191,13 @@ namespace RentCar
         private void btnVehiculosDisponibles_Click(object sender, EventArgs e)
         {
             FrmVehiculosDisponibles frm = new FrmVehiculosDisponibles();
-            frm.ShowDialog();
+            frm.Show();
         }
 
         private void btnAlquilerActivos_Click(object sender, EventArgs e)
         {
             FrmVehiculosAlquilados frm = new FrmVehiculosAlquilados();
-            frm.ShowDialog();
+            frm.Show();
         }
 
         private void btnHistorialCliente_Click(object sender, EventArgs e)
@@ -209,7 +209,50 @@ namespace RentCar
         private void btnEstadoCuenta_Click(object sender, EventArgs e)
         {
             FrmEstadoCuenta frm = new FrmEstadoCuenta();
-            frm.ShowDialog();
+            frm.Show();
+        }
+
+        private void btnIngresos_Click(object sender, EventArgs e)
+        {
+            FrmIngresosPorFecha frm = new FrmIngresosPorFecha();
+            frm.Show(); 
+
+        }
+
+        private void btnVehiculosRentados_Click(object sender, EventArgs e)
+        {
+            FrmVehiculosMasAlquilados frm = new FrmVehiculosMasAlquilados();
+            frm.Show();
+        }
+
+        private void btnClientesFrecuentes_Click(object sender, EventArgs e)
+        {
+            FrmClientesFrecuentes frm = new FrmClientesFrecuentes();
+            frm.Show();
+        }
+
+        private void btnPenalidades_Click(object sender, EventArgs e)
+        {
+            FrmPenalidadesGenerales frm = new FrmPenalidadesGenerales();
+            frm.Show();
+        }
+
+        private void btnReporteVehiculosAlquilados_Click(object sender, EventArgs e)
+        {
+            FrmVehiculosFeriados frm = new FrmVehiculosFeriados();
+            frm.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FrmPagoExtras frm = new FrmPagoExtras();
+            frm.Show();
+        }
+
+        private void btnPagodePenalidad_Click(object sender, EventArgs e)
+        {
+            FrmPagoPenalidades frm = new FrmPagoPenalidades();
+            frm.Show();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace RentCar.Consultas
                 totalPagado += pagado;
                 totalPenalidades += penal;
 
-                decimal pendiente = alquiler - pagado;
+                decimal pendiente = (alquiler + penal) - pagado;
                 totalPendiente += pendiente;
             }
 
@@ -83,22 +83,34 @@ namespace RentCar.Consultas
             using (MySqlConnection con = Conexion.obtenerConexion())
             {
                 string sql = @"
-        SELECT 
-            r.reserva_id,
-            r.fecha_inicio,
-            r.fecha_fin,
-            r.estado,
-            IFNULL(SUM(rv.subtotal),0) AS total_alquiler,
-            IFNULL(SUM(p.total),0) AS total_pagado,
-            IFNULL(SUM(pe.monto),0) AS penalidades
-        FROM Reservas r
-        LEFT JOIN Reserva_Vehiculos rv ON r.reserva_id = rv.reserva_id
-        LEFT JOIN Pagos p ON r.reserva_id = p.reserva_id
-        LEFT JOIN Penalidades pe ON r.reserva_id = pe.reserva_id
-        WHERE r.cliente_id = @cliente
-        AND r.fecha_inicio BETWEEN @desde AND @hasta
-        GROUP BY r.reserva_id
-        ";
+SELECT 
+    r.reserva_id,
+    r.fecha_inicio,
+    r.fecha_fin,
+    r.estado,
+
+    IFNULL((
+        SELECT SUM(rv.subtotal)
+        FROM Reserva_Vehiculos rv
+        WHERE rv.reserva_id = r.reserva_id
+    ),0) AS total_alquiler,
+
+    IFNULL((
+        SELECT SUM(p.total)
+        FROM Pagos p
+        WHERE p.reserva_id = r.reserva_id
+    ),0) AS total_pagado,
+
+    IFNULL((
+        SELECT SUM(pe.monto)
+        FROM Penalidades pe
+        WHERE pe.reserva_id = r.reserva_id
+    ),0) AS penalidades
+
+FROM Reservas r
+WHERE r.cliente_id = @cliente
+AND r.fecha_inicio BETWEEN @desde AND @hasta
+";
 
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.Parameters.AddWithValue("@cliente", cmbCliente.SelectedValue);

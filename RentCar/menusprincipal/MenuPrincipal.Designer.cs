@@ -58,16 +58,18 @@
             this.btnVehiculos = new System.Windows.Forms.Button();
             this.btnClientes = new System.Windows.Forms.Button();
             this.btnMantenimientos = new System.Windows.Forms.Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnPagodePenalidad = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panelMenu.SuspendLayout();
             this.panelReportes.SuspendLayout();
             this.panelConsultas.SuspendLayout();
             this.panelProcesos.SuspendLayout();
             this.panelMantenimientos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -123,7 +125,7 @@
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 61);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(252, 810);
+            this.panelMenu.Size = new System.Drawing.Size(252, 920);
             this.panelMenu.TabIndex = 1;
             // 
             // panelReportes
@@ -147,6 +149,7 @@
             this.btnReporteVehiculosAlquilados.TabIndex = 4;
             this.btnReporteVehiculosAlquilados.Text = "Vehiculos Alquilados en dias feriados o no";
             this.btnReporteVehiculosAlquilados.UseVisualStyleBackColor = true;
+            this.btnReporteVehiculosAlquilados.Click += new System.EventHandler(this.btnReporteVehiculosAlquilados_Click);
             // 
             // btnPenalidades
             // 
@@ -156,6 +159,7 @@
             this.btnPenalidades.TabIndex = 3;
             this.btnPenalidades.Text = "Penalidades generadas";
             this.btnPenalidades.UseVisualStyleBackColor = true;
+            this.btnPenalidades.Click += new System.EventHandler(this.btnPenalidades_Click);
             // 
             // btnClientesFrecuentes
             // 
@@ -165,6 +169,7 @@
             this.btnClientesFrecuentes.TabIndex = 2;
             this.btnClientesFrecuentes.Text = "ClientesFrecuentes";
             this.btnClientesFrecuentes.UseVisualStyleBackColor = true;
+            this.btnClientesFrecuentes.Click += new System.EventHandler(this.btnClientesFrecuentes_Click);
             // 
             // btnVehiculosRentados
             // 
@@ -174,6 +179,7 @@
             this.btnVehiculosRentados.TabIndex = 1;
             this.btnVehiculosRentados.Text = "Vehiculos Mas Rentados";
             this.btnVehiculosRentados.UseVisualStyleBackColor = true;
+            this.btnVehiculosRentados.Click += new System.EventHandler(this.btnVehiculosRentados_Click);
             // 
             // btnIngresos
             // 
@@ -183,6 +189,7 @@
             this.btnIngresos.TabIndex = 0;
             this.btnIngresos.Text = "Ingresos por fecha";
             this.btnIngresos.UseVisualStyleBackColor = true;
+            this.btnIngresos.Click += new System.EventHandler(this.btnIngresos_Click);
             // 
             // btnReportes
             // 
@@ -279,6 +286,8 @@
             // 
             // panelProcesos
             // 
+            this.panelProcesos.Controls.Add(this.btnPagodePenalidad);
+            this.panelProcesos.Controls.Add(this.button2);
             this.panelProcesos.Controls.Add(this.btnPagos);
             this.panelProcesos.Controls.Add(this.btnAlquiler);
             this.panelProcesos.Controls.Add(this.btnDevolucion);
@@ -290,9 +299,9 @@
             // 
             // btnPagos
             // 
-            this.btnPagos.Location = new System.Drawing.Point(66, 124);
+            this.btnPagos.Location = new System.Drawing.Point(66, 108);
             this.btnPagos.Name = "btnPagos";
-            this.btnPagos.Size = new System.Drawing.Size(183, 45);
+            this.btnPagos.Size = new System.Drawing.Size(174, 45);
             this.btnPagos.TabIndex = 6;
             this.btnPagos.Text = "Pagos";
             this.btnPagos.UseVisualStyleBackColor = true;
@@ -300,9 +309,9 @@
             // 
             // btnAlquiler
             // 
-            this.btnAlquiler.Location = new System.Drawing.Point(69, 6);
+            this.btnAlquiler.Location = new System.Drawing.Point(64, 6);
             this.btnAlquiler.Name = "btnAlquiler";
-            this.btnAlquiler.Size = new System.Drawing.Size(183, 45);
+            this.btnAlquiler.Size = new System.Drawing.Size(176, 45);
             this.btnAlquiler.TabIndex = 4;
             this.btnAlquiler.Text = "Alquiler";
             this.btnAlquiler.UseVisualStyleBackColor = true;
@@ -310,9 +319,9 @@
             // 
             // btnDevolucion
             // 
-            this.btnDevolucion.Location = new System.Drawing.Point(66, 59);
+            this.btnDevolucion.Location = new System.Drawing.Point(66, 57);
             this.btnDevolucion.Name = "btnDevolucion";
-            this.btnDevolucion.Size = new System.Drawing.Size(183, 45);
+            this.btnDevolucion.Size = new System.Drawing.Size(174, 45);
             this.btnDevolucion.TabIndex = 5;
             this.btnDevolucion.Text = "Devolucion";
             this.btnDevolucion.UseVisualStyleBackColor = true;
@@ -402,18 +411,6 @@
             this.btnMantenimientos.UseVisualStyleBackColor = false;
             this.btnMantenimientos.Click += new System.EventHandler(this.btnMantenimientos_Click);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(252, 61);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(1082, 810);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
@@ -426,11 +423,43 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(252, 61);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(1082, 920);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(64, 159);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(174, 45);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Pago Extras";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnPagodePenalidad
+            // 
+            this.btnPagodePenalidad.Location = new System.Drawing.Point(66, 211);
+            this.btnPagodePenalidad.Name = "btnPagodePenalidad";
+            this.btnPagodePenalidad.Size = new System.Drawing.Size(174, 48);
+            this.btnPagodePenalidad.TabIndex = 8;
+            this.btnPagodePenalidad.Text = "Pago Penalidades";
+            this.btnPagodePenalidad.UseVisualStyleBackColor = true;
+            this.btnPagodePenalidad.Click += new System.EventHandler(this.btnPagodePenalidad_Click);
+            // 
             // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1334, 871);
+            this.ClientSize = new System.Drawing.Size(1334, 981);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.panel1);
@@ -445,8 +474,8 @@
             this.panelConsultas.ResumeLayout(false);
             this.panelProcesos.ResumeLayout(false);
             this.panelMantenimientos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -484,5 +513,7 @@
         private System.Windows.Forms.Button btnReporteVehiculosAlquilados;
         private System.Windows.Forms.Button btnUsuarios;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnPagodePenalidad;
     }
 }

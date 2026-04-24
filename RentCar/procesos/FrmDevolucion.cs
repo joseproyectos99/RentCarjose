@@ -101,13 +101,13 @@ namespace RentCar.procesos
 
             CargarReservas();
 
-            // 🔹 Fecha por defecto = hoy
             dtpFechaRecepcion.Value = DateTime.Now;
 
-            // 🔹 Limpiar grid
+            dgvDetalle.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             dgvDetalle.DataSource = null;
 
-            // 🔹 CONFIGURAR GRID (IMPORTANTE)
+            
             dgvDetalle.AutoGenerateColumns = false;
 
             dgvDetalle.Columns.Clear();
@@ -124,7 +124,11 @@ namespace RentCar.procesos
 
             dgvDetalle.CellEndEdit += dgvDetalle_CellEndEdit;
 
+
             cargando = false;
+
+           
+
 
         }
 
@@ -147,7 +151,7 @@ namespace RentCar.procesos
 
                 decimal penalidad = CalcularPenalidad(reservaId, dtpFechaRecepcion.Value);
 
-                // 🔹 INSERT RECEPCION
+               
                 string insertRecepcion = @"INSERT INTO Recepciones
         (reserva_id, fecha_recepcion, observaciones)
         VALUES (@reserva, @fecha, @obs)";
@@ -176,21 +180,27 @@ namespace RentCar.procesos
 
                     decimal cargo = 0;
 
-                    // 🔥 VALIDAR COMBUSTIBLE
+               
                     if (combustible < 100)
                     {
                         cargo += 500;
                     }
 
-                    // 🔥 VALIDAR DAÑOS
+                 
                     if (!string.IsNullOrEmpty(danos))
                     {
                         cargo += 2000;
                     }
 
+                    int limiteKm = 100;
+                    if (km > limiteKm)
+                    {
+                        int kmExtra = km - limiteKm;
+                        cargo += kmExtra * 10;
+                    }
+
                     totalExtra += cargo;
 
-                    // 🔹 INSERT DETALLE
                     string insertDetalle = @"INSERT INTO Recepcion_Detalle
             (recepcion_id, vehiculo_id, combustible_devuelto, kilometraje_devuelto, danos, cargo_extra)
             VALUES (@rec, @vehiculo, @comb, @km, @danos, @cargo)";
@@ -206,14 +216,14 @@ namespace RentCar.procesos
 
                     cmdDet.ExecuteNonQuery();
 
-                    // 🔥 LIBERAR VEHÍCULO
+                    
                     string updateVehiculo = "UPDATE Vehiculos SET disponible=1 WHERE vehiculo_id=@id";
                     MySqlCommand cmdVeh = new MySqlCommand(updateVehiculo, con, trans);
                     cmdVeh.Parameters.AddWithValue("@id", vehiculoId);
                     cmdVeh.ExecuteNonQuery();
                 }
 
-                // 🔥 GUARDAR PENALIDAD SI EXISTE
+             
                 if (penalidad > 0)
                 {
                     string insertPenalidad = @"INSERT INTO Penalidades
@@ -222,8 +232,13 @@ namespace RentCar.procesos
 
                     MySqlCommand cmdPen = new MySqlCommand(insertPenalidad, con, trans);
 
-                    int dias = (dtpFechaRecepcion.Value - DateTime.Now).Days;
+                    string sqlFecha = "SELECT fecha_fin FROM Reservas WHERE reserva_id=@id";
+                    MySqlCommand cmdFecha = new MySqlCommand(sqlFecha, con, trans);
+                    cmdFecha.Parameters.AddWithValue("@id", reservaId);
 
+                    DateTime fechaFin = Convert.ToDateTime(cmdFecha.ExecuteScalar());
+
+                    int dias = (dtpFechaRecepcion.Value - fechaFin).Days;
                     cmdPen.Parameters.AddWithValue("@reserva", reservaId);
                     cmdPen.Parameters.AddWithValue("@dias", dias);
                     cmdPen.Parameters.AddWithValue("@monto", penalidad);
@@ -231,7 +246,7 @@ namespace RentCar.procesos
                     cmdPen.ExecuteNonQuery();
                 }
 
-                // 🔹 FINALIZAR RESERVA
+               
                 string updateReserva = "UPDATE Reservas SET estado='Finalizado' WHERE reserva_id=@id";
                 MySqlCommand cmdRes = new MySqlCommand(updateReserva, con, trans);
                 cmdRes.Parameters.AddWithValue("@id", reservaId);
@@ -276,21 +291,25 @@ namespace RentCar.procesos
 
             decimal combustible = 100;
             string danos = "";
+            int km = 0;
             decimal cargo = 0;
 
-            // 🔹 Combustible
+          
             if (row.Cells["Combustible"].Value != null)
             {
                 decimal.TryParse(row.Cells["Combustible"].Value.ToString(), out combustible);
             }
 
-            // 🔹 Daños
             if (row.Cells["Daños"].Value != null)
             {
                 danos = row.Cells["Daños"].Value.ToString();
             }
 
-            // 🔥 REGLAS
+            if (row.Cells["Kilometraje"].Value != null)
+            {
+                int.TryParse(row.Cells["Kilometraje"].Value.ToString(), out km);
+
+            }
 
             if (combustible < 100)
                 cargo += 500;
@@ -298,7 +317,14 @@ namespace RentCar.procesos
             if (!string.IsNullOrEmpty(danos))
                 cargo += 2000;
 
-            // 🔹 Mostrar resultado en el grid
+            int limiteKm = 100; 
+            if (km > limiteKm)
+            {
+                int kmExtra = km - limiteKm;
+                cargo += kmExtra * 10; 
+            }
+
+
             row.Cells["CargoExtra"].Value = cargo;
         }
     }
